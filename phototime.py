@@ -3,6 +3,7 @@ import os
 import exifread
 import datetime
 import collections
+import csv
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('dirs', metavar='DIR', type=str, nargs='+',
@@ -32,4 +33,10 @@ for d in sorted(timeslots.keys()):
     print(d+"\t"+str(len(timeslots[d])*.25))
     total += len(timeslots[d])*.25
 print("\n\nTotal time: "+str(total))
-                
+
+with open('timesheet.csv', 'w') as f:
+    f.write("Date,Photography,Processing\n")
+    for d in sorted(timeslots.keys()):
+        f.write(d+", "+str(len(timeslots[d])*.25)+", "+str(len(timeslots[d])*.25)+"\n")
+    
+    f.write("\nTotal:,"+str(total*2)+" hours")
